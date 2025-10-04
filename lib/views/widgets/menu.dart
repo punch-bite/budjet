@@ -28,7 +28,7 @@ class Menu extends StatelessWidget {
               );
             },
             child: Image.asset(
-              "images/Dashboard Gauge.png",
+              "images/Dashboard_Gauge.png",
               height: 32,
               width: 32,
               semanticLabel: "dashborad",
@@ -43,7 +43,7 @@ class Menu extends StatelessWidget {
               );
             },
             child: Image.asset(
-              "images/Card Wallet.png",
+              "images/Card_Wallet.png",
               height: 32,
               width: 32,
               semanticLabel: "dashborad",
@@ -58,7 +58,7 @@ class Menu extends StatelessWidget {
               );
             },
             child: Image.asset(
-              "images/Person_1.png",
+              "images/Person.png",
               height: 32,
               width: 32,
               semanticLabel: "dashborad",

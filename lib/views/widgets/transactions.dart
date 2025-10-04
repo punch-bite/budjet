@@ -1,15 +1,15 @@
+import 'package:budget/helpers/helper.dart';
 import 'package:budget/models/depense.dart';
 import 'package:flutter/material.dart';
 
 class Transactions extends StatelessWidget {
   final Depense depense;
-  // final List<int> colorCodes = [600, 500, 100];
-  const Transactions({super.key, required this.depense});
+  final Helper _helper = Helper();
+  Transactions({super.key, required this.depense});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.only(top: 8.0),
       decoration: BoxDecoration(
@@ -35,7 +35,8 @@ class Transactions extends StatelessWidget {
                 ),
               ),
               Text(
-                '${depense.created_at.day}/${depense.created_at.month}/${depense.created_at.year}',
+                // ignore: unnecessary_string_interpolations
+                '${_helper.formatDateAvecRelative(depense.created_at)}',
                 style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700),
               ),
             ],
@@ -44,8 +45,18 @@ class Transactions extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset("images/Giving Tickets.png", height: 32, width: 32),
-              Text('${depense.montant} FCFA'),
+              Image.asset(
+                "images/${depense.type == 'Dépense' ? 'Giving_Tickets.png' : 'Cash_in_Hand.png'}",
+                height: 32,
+                width: 32,
+              ),
+              Text(
+                '${double.parse(depense.montant)} FCFA',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: depense.type == 'Gain' ? const Color.fromARGB(255, 1, 85, 43) : Colors.redAccent[700],
+                ),
+              ),
             ],
           ),
         ],

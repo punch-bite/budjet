@@ -1,26 +1,38 @@
-import 'package:budget/models/depense.dart' show Depense;
-import 'package:flutter/material.dart';
+import 'package:budget/models/depense.dart';
+import 'package:budget/viewmodels/viewdepense.dart';
 import 'package:budget/views/widgets/transactions.dart';
+import 'package:flutter/material.dart';
 
-class Listdepenses extends StatelessWidget {
-  final List<Depense> depenses;
+class Listdepenses extends StatefulWidget {
+  const Listdepenses({super.key});
 
-  Listdepenses({super.key}) : 
-    depenses = [
-      Depense(id: '1', name: 'Market', montant: '1 600', created_at: DateTime(DateTime.now().day, DateTime.now().month, DateTime.now().year)),
-      Depense(id: '2', name: 'Transport', montant: '1 500', created_at: DateTime(DateTime.now().day, DateTime.now().month, DateTime.now().year)),
-      Depense(id: '3', name: 'Shopping', montant: '18 800', created_at: DateTime(DateTime.now().day, DateTime.now().month, DateTime.now().year)),
-      Depense(id: '4', name: 'Voyage', montant: '10 800', created_at: DateTime(DateTime.now().day, DateTime.now().month, DateTime.now().year)),
-      Depense(id: '5', name: 'Market', montant: '28 800', created_at: DateTime(DateTime.now().day, DateTime.now().month, DateTime.now().year)),
-      Depense(id: '6', name: 'Food', montant: '11 800', created_at: DateTime(DateTime.now().day, DateTime.now().month, DateTime.now().year)),
-      Depense(id: '7', name: 'Shopping', montant: '14 500', created_at: DateTime(DateTime.now().day, DateTime.now().month, DateTime.now().year)),
-    ];
+  @override
+  State<Listdepenses> createState() => _ListdepensesState();
+}
+
+class _ListdepensesState extends State<Listdepenses> {
+  final Viewdepense storage = Viewdepense();
+  List<Depense> depenses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _chargerDepenses();
+  }
+
+  Future<void> _chargerDepenses() async {
+    final donnees = await storage.getAllDepenses();
+    setState(() {
+      depenses = donnees;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:EdgeInsets.only(top: 50, left: 25, right: 25),
+      padding: EdgeInsets.only(top: 50, left: 25, right: 25),
       height: 1000,
+      width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.only(top: 25),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -28,10 +40,10 @@ class Listdepenses extends StatelessWidget {
           topRight: Radius.circular(25),
         ),
         color: Colors.white, // Déplacer la couleur ici
-        
       ),
       child: Column(
-        children: depenses.map((depense) => Transactions(depense: depense)).toList(),
+        children:
+            depenses.map((depense) => Transactions(depense: depense)).toList(),
       ),
     );
   }

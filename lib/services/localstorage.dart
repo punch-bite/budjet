@@ -1,26 +1,31 @@
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert'; // Don't forget to import this for JSON conversion
+// import 'dart:convert';
 
-class Localstorage {
-  static const String _depensekey = 'depense';
+// import 'package:budget/models/depense.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-  Future<void> saveDepenses(List<Map<String, dynamic>> depenses) async {
-    final pref = await SharedPreferences.getInstance();
-    // Convert the entire list to a JSON string
-    String encodedData = jsonEncode(depenses);
-    // Save the string
-    await pref.setString(_depensekey, encodedData);
-  }
+class LocalStorage {
+  // static const String _depenseKey = 'depenses'; // Clé de stockage
 
-  Future<List<Map<String, dynamic>>> loadDepenses() async {
-    final pref = await SharedPreferences.getInstance();
-    // Retrieve the string
-    String? jsonString = pref.getString(_depensekey);
-    
-    // Decode the string back into a list of maps
-    List<dynamic> decodedList = jsonDecode(jsonString!);
-    // Convert the list<dynamic> to List<Map<String, dynamic>>
-    List<Map<String, dynamic>> depenses = decodedList.cast<Map<String, dynamic>>();
-    return depenses;
-    }
+  // // Sauvegarde une liste de dépenses
+  // Future<void> saveDepenses(List<Depense> depenses) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   // Convertit la liste d'objets en liste de maps, puis en liste de chaînes JSON
+  //   List<String> jsonList = depenses.map((depense) => jsonEncode(depense.toJson())).toList();
+  //   // Sauvegarde la liste de chaînes
+  //   await prefs.setStringList(_depenseKey, jsonList);
+  // }
+
+  // // Charge une liste de dépenses
+  // Future<List<Depense>> loadDepenses() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   // Récupère la liste de chaînes (peut être nulle)
+  //   List<String>? jsonList = prefs.getStringList(_depenseKey);
+
+  //   if (jsonList == null) {
+  //     return []; // Retourne une liste vide si aucune donnée n'existe
+  //   }
+
+  //   // Convertit la liste de chaînes en liste d'objets Depense
+  //   return jsonList.map((jsonString) => Depense.fromJson(jsonDecode(jsonString))).toList();
+  // }
 }

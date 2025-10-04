@@ -1,31 +1,25 @@
+import 'package:hive/hive.dart';
 
-class Depense {
-  final String id;
+part 'depense.g.dart'; // This line is CRITICAL
+
+@HiveType(typeId: 0) // Ensure typeId is unique
+class Depense extends HiveObject {
+  @HiveField(0)
+  final String type;
+  
+  @HiveField(1)
   final String name;
+  
+  @HiveField(2)
   final String montant;
-  // ignore: non_constant_identifier_names
+  
+  @HiveField(3)
   final DateTime created_at;
 
   Depense({
-    required this.id,
+    required this.type,
     required this.name,
     required this.montant,
-    // ignore: non_constant_identifier_names
     required this.created_at,
   });
-
-  Depense copyWith({
-    String? id,
-    String? name,
-    String? montant,
-    // ignore: non_constant_identifier_names
-    DateTime? created_at,
-  }) {
-    return Depense(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      montant: montant ?? this.montant,
-      created_at: created_at ?? this.created_at,
-    );
-  }
 }
