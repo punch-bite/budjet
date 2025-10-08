@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Mon Budjet',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(fontFamily: 'Poppins', ),
       locale: DevicePreview.locale(context), // Utilise la locale du preview
       builder: DevicePreview.appBuilder, // Applique le builder pour le preview
       home: HomePage(),

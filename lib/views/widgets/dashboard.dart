@@ -1,132 +1,108 @@
+import 'package:budget/helpers/helper.dart';
 import 'package:budget/viewmodels/viewdepense.dart';
 import 'package:flutter/material.dart';
 
-class Dashboard extends StatelessWidget {
-  final Viewdepense storage = Viewdepense();
-  Dashboard({super.key});
+class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
 
-    
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  final Viewdepense storage = Viewdepense();
+  final Helper help = Helper();
+  late final Map<String, dynamic> _stats;
+
+  @override
+  void initState() {
+    super.initState();
+    _stats = storage.getStatistics();
+  }
 
   @override
   Widget build(BuildContext context) {
-      final Map<String, dynamic> _stats = storage.getStatistics();
     return SizedBox(
       height: 200,
       child: ListView(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(20),
         children: [
-          Container(
-            padding: const EdgeInsets.all(25),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            height: 150,
-            width: 300,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Dépenses",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurpleAccent[700],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset("images/Card_Wallet.png", height: 50, width: 50),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          '${_stats['parType']['Dépense'] ?? 0.0}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.blueGrey[700],
-                          ),
-                        ),
-                        Text(
-                          "155 660",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 111, 0, 255),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          _buildStatCard(
+            title: "Dépenses",
+            imagePath: "images/Card_Wallet.png",
+            mainValue: _stats['depenseCeMois']?['Dépense'] ?? 0.0,
+            secondaryValue: _stats['parType']?['Dépense'] ?? 0.0,
           ),
-      
-          const SizedBox(width: 23),
-      
-          Container(
-            padding: EdgeInsets.all(25),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            height: 150,
-            width: 300,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Gains",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurpleAccent[700],
-                      ),
-                    ),
-                  ],
+          const SizedBox(width: 25),
+          _buildStatCard(
+            title: "Gains", 
+            imagePath: "images/Cash_in_Hand.png",
+            mainValue: _stats['depenseCeMois']?['Gain'] ?? 0.0,
+            secondaryValue: _stats['parType']?['Gain'] ?? 0.0,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatCard({
+    required String title,
+    required String imagePath,
+    required dynamic mainValue,
+    required dynamic secondaryValue,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(25),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      height: 150,
+      width: 320,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurpleAccent[700],
                 ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset("images/Cash_in_Hand.png", height: 50, width: 50),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "${_stats['parType']['Gain'] ?? 0.0}",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.blueGrey[700],
-                          ),
-                        ),
-                        Text(
-                          "${_stats['total']}",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 111, 0, 255),
-                          ),
-                        ),
-                      ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(imagePath, height: 50, width: 50),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    help.money('$mainValue', local: 'fr_FR', devise: 'FCFA'),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.blueGrey[700],
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  Text(
+                    help.money("$secondaryValue", local: 'fr_FR', devise: 'FCFA'),
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: const Color.fromARGB(255, 111, 0, 255),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

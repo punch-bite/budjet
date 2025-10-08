@@ -24,8 +24,8 @@ class Header extends StatelessWidget {
                 style: TextStyle(fontSize: 22, color: Colors.white),
               ),
               Text(
-                "Prèt à controlez vos dépenses?",
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                "Prèt à controler vos dépenses?",
+                style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w300),
               ),
             ],
           ),

@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:budget/views/home_page.dart';
 import 'package:budget/views/profile_page.dart';
 import 'package:budget/views/transactions_page.dart';
-import 'package:flutter/material.dart';
 
 class Menu extends StatelessWidget {
   const Menu({super.key});
